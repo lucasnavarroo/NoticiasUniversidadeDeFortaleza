@@ -22,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".adapter.RecyclerViewNoticiasAdapter"></activity>
+        <activity android:name=".adapter.RecyclerViewNoticiasAdapter" />
+        <activity android:name=".activity.NoticiaActivity"></activity>
     </application>
 
 </manifest>

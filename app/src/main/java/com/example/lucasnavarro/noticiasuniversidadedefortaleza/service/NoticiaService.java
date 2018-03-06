@@ -35,7 +35,6 @@ public class NoticiaService {
                 .build();
 
         api = retrofit.create(API.class);
-
     }
 
     public void requestNoticias(String tip_notice, int ini, int fim){
@@ -49,9 +48,8 @@ public class NoticiaService {
                 salvarNoticias(response.body());
 
                 EventBus.getDefault().post(new RequestNoticiasEventSucess());
-                    Log.i("List_SIZE", getListNoticias(NoticiaModel.TIPO_GERAL).toString()+"");
-                }
 
+                }
             }
 
             @Override
@@ -81,5 +79,4 @@ public class NoticiaService {
 
         return copiaLista;
     }
-
 }

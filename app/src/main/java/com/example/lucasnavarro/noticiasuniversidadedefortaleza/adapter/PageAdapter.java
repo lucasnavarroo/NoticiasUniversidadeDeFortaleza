@@ -14,10 +14,6 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.Esporte
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.EventosFragment;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.GeralFragment;
 
-/**
- * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class PageAdapter extends FragmentPagerAdapter {
 
     private View view;

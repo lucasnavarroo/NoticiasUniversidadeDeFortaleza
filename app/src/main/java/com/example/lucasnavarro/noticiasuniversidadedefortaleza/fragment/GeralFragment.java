@@ -2,11 +2,13 @@ package com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment;
 
 
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.adapter.RecyclerViewNoticiasAdapter;
@@ -15,6 +17,7 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNot
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.service.NoticiaService;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 public class GeralFragment extends BaseFragment {
@@ -22,6 +25,9 @@ public class GeralFragment extends BaseFragment {
     private RecyclerView recyclerViewGeral;
     private RecyclerViewNoticiasAdapter adapter;
     private NoticiaService noticiaService;
+    private ImageView imageViewNoticia;
+    private CardView cardViewNoticias;
+    int ini = 1, fim = 11;
 
     public GeralFragment() {
         super();
@@ -37,6 +43,8 @@ public class GeralFragment extends BaseFragment {
         noticiaService = new NoticiaService();
         adapter = new RecyclerViewNoticiasAdapter();
         recyclerViewGeral = geralView.findViewById(R.id.recyclerViewGeral);
+        imageViewNoticia = geralView.findViewById(R.id.imageViewNoticia);
+        cardViewNoticias = geralView.findViewById(R.id.cardViewNoticias);
 
         //configuraçao do recycleview
         recyclerViewGeral.setHasFixedSize(true);
@@ -45,9 +53,25 @@ public class GeralFragment extends BaseFragment {
         recyclerViewGeral.setLayoutManager(linearLayoutManager);
 
         //chamando a requisiçao
-        noticiaService.requestNoticias(NoticiaModel.TIPO_GERAL, 1,11);
+        noticiaService.requestNoticias(NoticiaModel.TIPO_GERAL, ini, fim);
 
-       return geralView;
+//        recyclerViewGeral.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+//            @Override
+//            public void onLoadMore(int current_page) {
+//                    noticiaService.requestNoticias(NoticiaModel.TIPO_GERAL, ini, fim);
+//                    ini+= 11;
+//                    fim+=11;
+//            }
+//        });
+
+        cardViewNoticias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new NoticiaActivityEvent());
+            }
+        });
+
+        return geralView;
     }
 
     @Subscribe
@@ -57,9 +81,14 @@ public class GeralFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onEvent(RequestNoticiasEventFail event){
+    public void onEvent(RequestNoticiasEventFail event) {
         adapter.refreshNoticias(NoticiaModel.TIPO_GERAL);
         recyclerViewGeral.setAdapter(adapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
 }

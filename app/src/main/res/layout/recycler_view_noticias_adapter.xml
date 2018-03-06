@@ -2,11 +2,9 @@
 
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.example.lucasnavarro.noticiasuniversidadedefortaleza.adapter.RecyclerViewNoticiasAdapter">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,13 +24,21 @@
             android:id="@+id/imageViewNoticia"
             android:layout_width="match_parent"
             android:layout_height="129dp"
+            android:paddingTop="12dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/textViewTextoNoticia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="6dp"
             android:text="Noticia" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+             />
 
     </LinearLayout>
     </android.support.constraint.ConstraintLayout>
