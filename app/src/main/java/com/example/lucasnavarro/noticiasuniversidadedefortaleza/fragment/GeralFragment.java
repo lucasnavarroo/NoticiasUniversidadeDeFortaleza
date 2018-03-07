@@ -14,6 +14,7 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.adapter.RecyclerViewNoticiasAdapter;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventFail;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventSucess;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.VerNoticiaEvent;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.service.NoticiaService;
 
@@ -63,13 +64,6 @@ public class GeralFragment extends BaseFragment {
 //                    fim+=11;
 //            }
 //        });
-
-        cardViewNoticias.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new NoticiaActivityEvent());
-            }
-        });
 
         return geralView;
     }

@@ -5,8 +5,6 @@ import android.os.Bundle;
 
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 
-import org.greenrobot.eventbus.Subscribe;
-
 public class NoticiaActivity extends AppCompatActivity {
 
     @Override

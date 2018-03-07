@@ -10,40 +10,36 @@
     android:foreground="?android:attr/selectableItemBackground"
     app:cardElevation="6dp">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageViewCardsNoticias"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="12dp"
-        android:orientation="vertical"
-        android:padding="6dp">
+        android:layout_height="120dp" />
 
-        <TextView
-            android:id="@+id/textViewCardsTitulo"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Titulo"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/shadow_gradient" >
 
-        <TextView
-            android:id="@+id/textViewCardsData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="6dp"
-            android:text="Data" />
+            <TextView
+                android:id="@+id/textViewCardsTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titulo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-        <ImageView
-            android:id="@+id/imageViewCardsNoticias"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_launcher_background"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp" />
+            <TextView
+                android:id="@+id/textViewCardsData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Data" />
 
-        <TextView
-            android:id="@+id/textViewCardsResumo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="6dp"
-            android:text="Resumo" />
+            <TextView
+                android:id="@+id/textViewCardsResumo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resumo" />
+
     </LinearLayout>
+
 </android.support.v7.widget.CardView>
