@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity {
 
         mViewPager = findViewById(R.id.container);
 
-        mPageAdapter = new PageAdapter(getSupportFragmentManager(), mViewPager);
+        mPageAdapter = new PageAdapter(getSupportFragmentManager());
 
         mViewPager.setAdapter(mPageAdapter);
 
@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity {
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        mViewPager.setOffscreenPageLimit(2);
     }
 
 }

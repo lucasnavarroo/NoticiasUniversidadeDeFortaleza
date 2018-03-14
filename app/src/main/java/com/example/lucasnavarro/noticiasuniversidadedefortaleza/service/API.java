@@ -1,8 +1,9 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.service;
 
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.Dados;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.ResponseObject;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,6 +18,5 @@ public interface API {
 
     //Leitura
     @GET("{tipoNoticia}/")
-    Call<Dados> listarNoticias(@Path("tipoNoticia") String tip_notice, @Query("regIni") int ini, @Query("regFim") int fim);
-
+    Call<ResponseObject<NoticiaModel>> listarNoticias(@Path("tipoNoticia") String tip_notice, @Query("regIni") int ini, @Query("regFim") int fim);
 }

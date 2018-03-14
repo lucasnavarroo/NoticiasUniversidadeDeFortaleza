@@ -16,11 +16,12 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.GeralFr
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private View view;
+    private GeralFragment geralFragment;
+    private EventosFragment eventosFragment;
+    private EsportesFragment esportesFragment;
 
-    public PageAdapter(FragmentManager fm, View view) {
+    public PageAdapter(FragmentManager fm) {
         super(fm);
-        this.view = view;
     }
 
     @Override
@@ -28,18 +29,26 @@ public class PageAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new GeralFragment();
+                if (geralFragment == null) {
+                    geralFragment = new GeralFragment();
+                }
+
+                return  geralFragment;
             case 1:
-                return new EventosFragment();
+                if (eventosFragment == null) {
+                    eventosFragment = new EventosFragment();
+                }
+
+                return  eventosFragment;
             case 2:
-                return new EsportesFragment();
+                if (esportesFragment == null) {
+                    esportesFragment= new EsportesFragment();
+                }
+
+                return  esportesFragment;
             default:
                 return null;
         }
-    }
-
-    public void setView(View view){
-        this.view = view;
     }
 
     @Override

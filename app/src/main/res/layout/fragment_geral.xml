@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment.GeralFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +15,7 @@
          android:fillViewport="true">
 
          <android.support.v7.widget.RecyclerView
-             android:id="@+id/recyclerViewGeral"
+             android:id="@+id/recyclerViewBase"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:paddingStart="8dp"

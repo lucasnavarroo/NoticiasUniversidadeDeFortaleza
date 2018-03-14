@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.activity.NoticiaActivity;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestIdNoticiaEvent;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Lucas Navarro on 06/03/2018.
@@ -55,12 +58,6 @@ public class ItemMyViewHolder extends RecyclerView.ViewHolder {
             textViewCardsData.setText(noticiaModel.getDataPublicacao());
         }
 
-        cardViewNoticias.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), NoticiaActivity.class);
-                itemView.getContext().startActivity(intent);
-            }
-        });
     }
+
 }

@@ -15,17 +15,16 @@ import java.util.List;
 public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyViewHolder> {
 
     private List<NoticiaModel> noticias;
-    private NoticiaService noticiaService;
 
 //    private Context context;
-    public RecyclerViewNoticiasAdapter() {
-        noticiaService = new NoticiaService();
+    public RecyclerViewNoticiasAdapter(String tipo) {
+        refreshNoticias(tipo);
     }
 
     @Override
     public ItemMyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_cards_adapter, parent, false);
+                .inflate(R.layout.item_card_viewholder, parent, false);
 
         return new ItemMyViewHolder(itemLista);
     }
@@ -36,7 +35,7 @@ public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyView
     }
 
     public void refreshNoticias(String tipo){
-        this.noticias = noticiaService.getListNoticias(tipo);
+        this.noticias = NoticiaService.getListNoticias(tipo);
         notifyDataSetChanged();
     }
 
@@ -45,5 +44,9 @@ public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyView
         return noticias.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+       return noticias.get(position).getId();
+    }
 
 }

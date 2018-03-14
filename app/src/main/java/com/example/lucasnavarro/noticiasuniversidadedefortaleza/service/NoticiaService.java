@@ -1,11 +1,9 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.service;
 
-import android.util.Log;
-
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventFail;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventSucess;
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.Dados;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.ResponseObject;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,64 +17,66 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Lucas Navarro on 22/02/2018.
- */
-
 public class NoticiaService {
 
-    private static API api;
-
-    public NoticiaService() {
+    private static API getAPI() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://services-dev.unifor.br/services-dev/noticias/ultimas/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        api = retrofit.create(API.class);
+        return retrofit.create(API.class);
     }
 
-    public void requestNoticias(String tip_notice, int ini, int fim){
+    public static void requestNoticias(String typeNotice, int ini, int fim) {
 
-        api.listarNoticias(tip_notice, ini, fim).enqueue(new Callback<Dados>() {
+        getAPI().listarNoticias(typeNotice, ini, fim).enqueue(new Callback<ResponseObject<NoticiaModel>>() {
             @Override
-            public void onResponse(Call<Dados> call, Response<Dados> response) {
+            public void onResponse(Call<ResponseObject<NoticiaModel>> call, Response<ResponseObject<NoticiaModel>> response) {
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
 
-                salvarNoticias(response.body());
+                    salvarNoticias(response.body().getData());
 
-                EventBus.getDefault().post(new RequestNoticiasEventSucess());
+                    EventBus.getDefault().post(new RequestNoticiasEventSucess());
 
+                } else {
+                    EventBus.getDefault().post(new RequestNoticiasEventFail());
                 }
             }
 
             @Override
-            public void onFailure(Call<Dados> call, Throwable t) {
+            public void onFailure(Call<ResponseObject<NoticiaModel>> call, Throwable t) {
                 EventBus.getDefault().post(new RequestNoticiasEventFail());
             }
         });
 
     }
 
-    public void salvarNoticias(Dados dados){
+    private static void salvarNoticias(List<NoticiaModel> noticias) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(dados);
+        realm.copyToRealmOrUpdate(noticias);
         realm.commitTransaction();
     }
 
-    public List<NoticiaModel> getListNoticias(String tipoNoticia){
+    public static List<NoticiaModel> getListNoticias(String tipoNoticia) {
         Realm realm = Realm.getDefaultInstance();
 
-        List<NoticiaModel> copiaLista;
+        RealmResults<NoticiaModel> noticiaModelRealmList = realm.where(NoticiaModel.class)
+                .equalTo("tipo", tipoNoticia)
+                .findAll();
 
-        realm.beginTransaction();
-        RealmResults<NoticiaModel> noticiaModelRealmList = realm.where(NoticiaModel.class).findAll();
-        copiaLista = realm.copyFromRealm(noticiaModelRealmList);
-        realm.commitTransaction();
-
-        return copiaLista;
+        return noticiaModelRealmList;
     }
+
+    public static NoticiaModel getNoticia(int idNoticia) {
+        Realm realm = Realm.getDefaultInstance();
+
+        NoticiaModel noticia = realm.where(NoticiaModel.class).equalTo("id", idNoticia).findFirst();
+
+        return noticia;
+    }
+
 }

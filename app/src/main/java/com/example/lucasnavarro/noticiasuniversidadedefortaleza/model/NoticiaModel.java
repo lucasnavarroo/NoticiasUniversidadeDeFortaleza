@@ -3,15 +3,11 @@ package com.example.lucasnavarro.noticiasuniversidadedefortaleza.model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by Lucas Navarro on 22/02/2018.
- */
-
 public class NoticiaModel extends RealmObject {
 
-    public static final String TIPO_GERAL = "noticia";
-    public static final String TIPO_ESPORTES = "esportivo";
-    public static final String TIPO_EVENTOS = "evento";
+    public static final String TIPO_GERAL = "NOTICIA";
+    public static final String TIPO_ESPORTES = "ESPORTIVO";
+    public static final String TIPO_EVENTOS = "EVENTO";
 
     @PrimaryKey
     private Integer id;

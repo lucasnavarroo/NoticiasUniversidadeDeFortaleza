@@ -7,10 +7,6 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNot
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-/**
- * Created by Lucas Navarro on 22/02/2018.
- */
-
 public class BaseActivity extends AppCompatActivity {
 
     @Override
