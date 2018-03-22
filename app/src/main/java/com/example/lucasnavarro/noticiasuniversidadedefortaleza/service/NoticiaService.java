@@ -1,5 +1,7 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.service;
 
+import android.util.Log;
+
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventFail;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventSucess;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
@@ -10,7 +12,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,13 +34,27 @@ public class NoticiaService {
 
         getAPI().listarNoticias(typeNotice, ini, fim).enqueue(new Callback<ResponseObject<NoticiaModel>>() {
             @Override
-            public void onResponse(Call<ResponseObject<NoticiaModel>> call, Response<ResponseObject<NoticiaModel>> response) {
+            public void onResponse(Call<ResponseObject<NoticiaModel>> call, final Response<ResponseObject<NoticiaModel>> response) {
 
                 if (response.isSuccessful()) {
 
-                    salvarNoticias(response.body().getData());
+                    Realm.getDefaultInstance().executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.copyToRealmOrUpdate(response.body().getData());
+                        }
+                    }, new Realm.Transaction.OnSuccess() {
 
-                    EventBus.getDefault().post(new RequestNoticiasEventSucess());
+                        @Override
+                        public void onSuccess() {
+                            EventBus.getDefault().post(new RequestNoticiasEventSucess());
+                        }
+                    }, new Realm.Transaction.OnError() {
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.e("Realm", "onError: ", error);
+                        }
+                    });
 
                 } else {
                     EventBus.getDefault().post(new RequestNoticiasEventFail());
@@ -54,29 +69,25 @@ public class NoticiaService {
 
     }
 
-    private static void salvarNoticias(List<NoticiaModel> noticias) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(noticias);
-        realm.commitTransaction();
-    }
+//    private static void salvarNoticias(List<NoticiaModel> noticias) {
+//        Realm realm = Realm.getDefaultInstance();
+//        realm.beginTransaction();
+//        realm.copyToRealmOrUpdate(noticias);
+//        realm.commitTransaction();
+//    }
 
     public static List<NoticiaModel> getListNoticias(String tipoNoticia) {
         Realm realm = Realm.getDefaultInstance();
 
-        RealmResults<NoticiaModel> noticiaModelRealmList = realm.where(NoticiaModel.class)
+        return realm.where(NoticiaModel.class)
                 .equalTo("tipo", tipoNoticia)
                 .findAll();
 
-        return noticiaModelRealmList;
     }
 
     public static NoticiaModel getNoticia(int idNoticia) {
         Realm realm = Realm.getDefaultInstance();
-
-        NoticiaModel noticia = realm.where(NoticiaModel.class).equalTo("id", idNoticia).findFirst();
-
-        return noticia;
+        return realm.where(NoticiaModel.class).equalTo("id", idNoticia).findFirst();
     }
 
 }

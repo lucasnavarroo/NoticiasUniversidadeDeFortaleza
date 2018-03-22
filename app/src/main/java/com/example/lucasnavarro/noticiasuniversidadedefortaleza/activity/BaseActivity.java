@@ -2,7 +2,7 @@ package com.example.lucasnavarro.noticiasuniversidadedefortaleza.activity;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNoticiasEventSucess;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.BaseEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,5 +26,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onEvent(RequestNoticiasEventSucess event){}
+    public void onEvent(BaseEvent event){}
+
 }

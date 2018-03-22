@@ -1,24 +1,21 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.adapter;
 
-/**
- * Created by Lucas Navarro on 22/02/2018.
- */
-
-import android.view.View;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.EsportesFragment;
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.EventosFragment;
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.GeralFragment;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.BaseEvent;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.NoticiasFragment;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private GeralFragment geralFragment;
-    private EventosFragment eventosFragment;
-    private EsportesFragment esportesFragment;
+    private NoticiasFragment geralFragment;
+    private NoticiasFragment eventosFragment;
+    private NoticiasFragment esportesFragment;
 
     public PageAdapter(FragmentManager fm) {
         super(fm);
@@ -30,22 +27,25 @@ public class PageAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 if (geralFragment == null) {
-                    geralFragment = new GeralFragment();
+                    geralFragment = new NoticiasFragment();
+                    geralFragment.setTipoNoticia(NoticiaModel.TIPO_GERAL);
                 }
 
-                return  geralFragment;
+                return geralFragment;
             case 1:
                 if (eventosFragment == null) {
-                    eventosFragment = new EventosFragment();
+                    eventosFragment = new NoticiasFragment();
+                    eventosFragment.setTipoNoticia(NoticiaModel.TIPO_EVENTOS);
                 }
 
-                return  eventosFragment;
+                return eventosFragment;
             case 2:
                 if (esportesFragment == null) {
-                    esportesFragment= new EsportesFragment();
+                    esportesFragment = new NoticiasFragment();
+                    esportesFragment.setTipoNoticia(NoticiaModel.TIPO_ESPORTES);
                 }
 
-                return  esportesFragment;
+                return esportesFragment;
             default:
                 return null;
         }

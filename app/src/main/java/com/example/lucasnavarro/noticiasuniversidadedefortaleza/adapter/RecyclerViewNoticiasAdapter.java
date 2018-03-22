@@ -10,16 +10,12 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.adapter.item.Ite
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.service.NoticiaService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyViewHolder> {
 
-    private List<NoticiaModel> noticias;
-
-//    private Context context;
-    public RecyclerViewNoticiasAdapter(String tipo) {
-        refreshNoticias(tipo);
-    }
+    private List<NoticiaModel> noticias = new ArrayList<>();
 
     @Override
     public ItemMyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
