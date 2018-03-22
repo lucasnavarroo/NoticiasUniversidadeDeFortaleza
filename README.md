@@ -1,2 +1,2 @@
 # NoticiasUniversidadeDeFortaleza
-A simple app that display the news from my university
+Um app que mostra as notícias da mina universidade.
