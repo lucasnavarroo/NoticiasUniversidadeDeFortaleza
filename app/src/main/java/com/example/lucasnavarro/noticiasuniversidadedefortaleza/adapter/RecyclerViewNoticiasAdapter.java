@@ -10,10 +10,17 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.adapter.item.Ite
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.service.NoticiaService;
 
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@EBean
 public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyViewHolder> {
+
+    @Bean
+    protected NoticiaService noticiaService;
 
     private List<NoticiaModel> noticias = new ArrayList<>();
 
@@ -30,8 +37,8 @@ public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyView
         holder.bind(noticias.get(position));
     }
 
-    public void refreshNoticias(String tipo){
-        this.noticias = NoticiaService.getListNoticias(tipo);
+    public void refreshNoticias(String tipo) {
+        this.noticias = noticiaService.getListNoticias(tipo);
         notifyDataSetChanged();
     }
 
@@ -42,7 +49,7 @@ public class RecyclerViewNoticiasAdapter extends RecyclerView.Adapter<ItemMyView
 
     @Override
     public long getItemId(int position) {
-       return noticias.get(position).getId();
+        return noticias.get(position).getId();
     }
 
 }

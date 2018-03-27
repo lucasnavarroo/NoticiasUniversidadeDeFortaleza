@@ -2,11 +2,14 @@ package com.example.lucasnavarro.noticiasuniversidadedefortaleza.activity;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.BaseEvent;
 
+import org.androidannotations.annotations.EActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+@EActivity(R.layout.activity_main)
 public class BaseActivity extends AppCompatActivity {
 
     @Override

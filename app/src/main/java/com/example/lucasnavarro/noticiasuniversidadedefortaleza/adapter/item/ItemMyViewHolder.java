@@ -12,16 +12,16 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by Lucas Navarro on 06/03/2018.
- */
+import org.androidannotations.annotations.EViewGroup;
+
 
 public class ItemMyViewHolder extends RecyclerView.ViewHolder {
-    TextView textViewCardsTitulo;
-    TextView textViewCardsData;
-    TextView textViewCardsResumo;
-    ImageView imageViewCardsNoticias;
-    CardView cardViewNoticias;
+
+    private TextView textViewCardsTitulo;
+    private TextView textViewCardsData;
+    private TextView textViewCardsResumo;
+    private ImageView imageViewCardsNoticias;
+    private CardView cardViewNoticias;
 
     public ItemMyViewHolder(View itemView) {
         super(itemView);
@@ -33,7 +33,7 @@ public class ItemMyViewHolder extends RecyclerView.ViewHolder {
         cardViewNoticias = itemView.findViewById(R.id.cardViewNoticias);
     }
 
-    public void bind(NoticiaModel noticiaModel){
+    public void bind(NoticiaModel noticiaModel) {
         Context context = imageViewCardsNoticias.getContext();
         Picasso
                 .with(context)
@@ -44,9 +44,9 @@ public class ItemMyViewHolder extends RecyclerView.ViewHolder {
                 .into(imageViewCardsNoticias);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            textViewCardsTitulo.setText(Html.fromHtml(noticiaModel.getTitulo(),Html.FROM_HTML_MODE_LEGACY));
-            textViewCardsResumo.setText(Html.fromHtml(noticiaModel.getResumo(),Html.FROM_HTML_MODE_LEGACY));
-            textViewCardsData.setText(Html.fromHtml(noticiaModel.getDataPublicacao(),Html.FROM_HTML_MODE_LEGACY));
+            textViewCardsTitulo.setText(Html.fromHtml(noticiaModel.getTitulo(), Html.FROM_HTML_MODE_LEGACY));
+            textViewCardsResumo.setText(Html.fromHtml(noticiaModel.getResumo(), Html.FROM_HTML_MODE_LEGACY));
+            textViewCardsData.setText(Html.fromHtml(noticiaModel.getDataPublicacao(), Html.FROM_HTML_MODE_LEGACY));
         } else {
             textViewCardsTitulo.setText(Html.fromHtml(noticiaModel.getTitulo()));
             textViewCardsResumo.setText(Html.fromHtml(noticiaModel.getResumo()));

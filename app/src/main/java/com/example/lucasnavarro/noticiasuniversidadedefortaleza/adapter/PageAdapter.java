@@ -4,12 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.BaseEvent;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.NoticiasFragment;
-import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
+import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.NoticiasFragment_;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import static com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel.TIPO_GERAL;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
@@ -27,25 +25,22 @@ public class PageAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 if (geralFragment == null) {
-                    geralFragment = new NoticiasFragment();
-                    geralFragment.setTipoNoticia(NoticiaModel.TIPO_GERAL);
+                    geralFragment = NoticiasFragment_.builder().tipoNoticia(TIPO_GERAL).build();
                 }
-
                 return geralFragment;
+
             case 1:
                 if (eventosFragment == null) {
-                    eventosFragment = new NoticiasFragment();
-                    eventosFragment.setTipoNoticia(NoticiaModel.TIPO_EVENTOS);
+                    eventosFragment = NoticiasFragment_.builder().tipoNoticia(TIPO_GERAL).build();
                 }
-
                 return eventosFragment;
+
             case 2:
                 if (esportesFragment == null) {
-                    esportesFragment = new NoticiasFragment();
-                    esportesFragment.setTipoNoticia(NoticiaModel.TIPO_ESPORTES);
+                    esportesFragment = NoticiasFragment_.builder().tipoNoticia(TIPO_GERAL).build();
                 }
-
                 return esportesFragment;
+
             default:
                 return null;
         }

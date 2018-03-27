@@ -4,9 +4,11 @@ import android.support.v4.app.Fragment;
 
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.BaseEvent;
 
+import org.androidannotations.annotations.EFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+@EFragment
 public class BaseFragment extends Fragment {
 
     @Override
@@ -26,6 +28,7 @@ public class BaseFragment extends Fragment {
     }
 
     @Subscribe
-    public void onEvent(BaseEvent event){}
+    public void onEvent(BaseEvent event) {
+    }
 
 }

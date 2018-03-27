@@ -3,7 +3,7 @@ package com.example.lucasnavarro.noticiasuniversidadedefortaleza.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class ResponseObject<T> implements Serializable{
+public class ResponseObject<T> implements Serializable {
 
     private boolean success;
 

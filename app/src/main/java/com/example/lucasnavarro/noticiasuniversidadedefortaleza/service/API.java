@@ -8,14 +8,10 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-/**
- * Created by Lucas Navarro on 22/02/2018.
- */
-
 public interface API {
 
     //Leitura
     @GET("{tipoNoticia}/")
-    Call<ResponseObject<NoticiaModel>> listarNoticias(@Path("tipoNoticia") String tip_notice, @Query("regIni") int ini, @Query("regFim") int fim);
+    Call<ResponseObject<NoticiaModel>> listarNoticias(@Path("tipoNoticia") String tipo_noticia, @Query("regIni") int ini, @Query("regFim") int fim);
 
 }

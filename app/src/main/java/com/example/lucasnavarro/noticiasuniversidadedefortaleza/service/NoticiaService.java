@@ -7,6 +7,7 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.event.RequestNot
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.ResponseObject;
 
+import org.androidannotations.annotations.EBean;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@EBean
 public class NoticiaService {
 
     private static API getAPI() {
@@ -30,7 +32,7 @@ public class NoticiaService {
         return retrofit.create(API.class);
     }
 
-    public static void requestNoticias(String typeNotice, int ini, int fim) {
+    public void requestNoticias(String typeNotice, int ini, int fim) {
 
         getAPI().listarNoticias(typeNotice, ini, fim).enqueue(new Callback<ResponseObject<NoticiaModel>>() {
             @Override
@@ -76,7 +78,7 @@ public class NoticiaService {
 //        realm.commitTransaction();
 //    }
 
-    public static List<NoticiaModel> getListNoticias(String tipoNoticia) {
+    public List<NoticiaModel> getListNoticias(String tipoNoticia) {
         Realm realm = Realm.getDefaultInstance();
 
         return realm.where(NoticiaModel.class)
@@ -85,7 +87,7 @@ public class NoticiaService {
 
     }
 
-    public static NoticiaModel getNoticia(int idNoticia) {
+    public NoticiaModel getNoticia(int idNoticia) {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(NoticiaModel.class).equalTo("id", idNoticia).findFirst();
     }

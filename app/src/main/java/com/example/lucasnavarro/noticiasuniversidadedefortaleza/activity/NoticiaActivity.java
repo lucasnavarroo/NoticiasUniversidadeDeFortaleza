@@ -1,44 +1,48 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.service.NoticiaService;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ViewById;
+
+@EBean
+@EActivity(R.layout.activity_noticia)
 public class NoticiaActivity extends BaseActivity {
-    private int idNoticia;
-    private TextView textViewTitulo;
-    private ImageView imageViewNoticia;
-    private TextView textViewTextoNoticia;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_noticia);
+    @Bean
+    protected NoticiaService noticiaService;
 
+    @Extra
+    protected int idNoticia;
+
+    @ViewById
+    protected TextView textViewTitulo;
+
+    @ViewById
+    protected ImageView imageViewNoticia;
+
+    @ViewById
+    protected TextView textViewTextoNoticia;
+
+    @AfterViews
+    protected void afterViews() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        textViewTitulo = findViewById(R.id.textViewTitulo);
-        imageViewNoticia = findViewById(R.id.imageViewNoticia);
-        textViewTextoNoticia = findViewById(R.id.textViewTextoNoticia);
-
-        Bundle extras = getIntent().getExtras();
-        idNoticia = extras.getInt("idNoticia");
-
-        NoticiaModel noticia = NoticiaService.getNoticia(idNoticia);
-
+        NoticiaModel noticia = noticiaService.getNoticia(idNoticia);
         ajustar(noticia);
     }
 
@@ -69,6 +73,4 @@ public class NoticiaActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
