@@ -1,22 +1,19 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.R;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.model.NoticiaModel;
 import com.example.lucasnavarro.noticiasuniversidadedefortaleza.service.NoticiaService;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 public class NoticiaActivity extends BaseActivity {
-    private int idNoticia;
+    public static final String EXTRA_ID_NOTICIA = "idNoticia";
+
     private TextView textViewTitulo;
     private ImageView imageViewNoticia;
     private TextView textViewTextoNoticia;
@@ -35,18 +32,18 @@ public class NoticiaActivity extends BaseActivity {
         textViewTextoNoticia = findViewById(R.id.textViewTextoNoticia);
 
         Bundle extras = getIntent().getExtras();
-        idNoticia = extras.getInt("idNoticia");
+        int idNoticia = extras.getInt(EXTRA_ID_NOTICIA);
 
         NoticiaModel noticia = NoticiaService.getNoticia(idNoticia);
 
         ajustar(noticia);
     }
 
+
     public void ajustar(NoticiaModel noticia) {
         Picasso
                 .with(getApplicationContext())
-//                .load(noticiaModel.getUrlImg())
-                .load("https://www.unifor.br/documents/20143/554520/1.+Campus+%28Desktop%29.jpg/24826674-6639-7f71-c6fc-a3b5f5a54d1f?t=1516039078295")
+                .load(noticia.getUrlImg())
                 .fit()
                 .centerCrop()
                 .into(imageViewNoticia);

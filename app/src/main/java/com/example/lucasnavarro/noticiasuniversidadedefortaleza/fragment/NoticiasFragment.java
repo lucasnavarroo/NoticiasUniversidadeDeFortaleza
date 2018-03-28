@@ -1,5 +1,7 @@
 package com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,10 +24,11 @@ import com.rohit.recycleritemclicksupport.RecyclerItemClickSupport;
 
 import org.greenrobot.eventbus.Subscribe;
 
-public class NoticiasFragment extends BaseFragment {
+import static com.example.lucasnavarro.noticiasuniversidadedefortaleza.activity.NoticiaActivity.EXTRA_ID_NOTICIA;
 
+public class NoticiasFragment extends BaseFragment {
+    private static final String TIPO_NOTICIA = "tipoNoticia";
     private static final int PAGE_SIZE = 10;
-    private static final String TAG = "notFrg";
 
     private RecyclerView recyclerView;
     private RecyclerViewNoticiasAdapter adapter = new RecyclerViewNoticiasAdapter();
@@ -39,35 +42,18 @@ public class NoticiasFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_noticias, container, false);
 
         if (savedInstanceState != null) {
-            tipoNoticia = savedInstanceState.getString("tipoNoticia");
-
-            recyclerView = view.findViewById(R.id.recyclerViewBase);
-
-            swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
-            setupRecyclerView();
-
-            Log.d(TAG, "onCreateView() called with: inflater = [" + inflater + "], container = [" + container + "], savedInstanceState = [" + savedInstanceState + "]");
-
-        } else {
-
-            recyclerView = view.findViewById(R.id.recyclerViewBase);
-
-            swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
-            setupRecyclerView();
-
-            Log.d(TAG, "onCreateView() called with: inflater = [" + inflater + "], container = [" + container + "], savedInstanceState = [" + savedInstanceState + "]");
+            tipoNoticia = savedInstanceState.getString(TIPO_NOTICIA);
         }
 
-        return view;
+        recyclerView = view.findViewById(R.id.recyclerViewBase);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        setupRecyclerView();
 
+        return view;
     }
 
     private void refreshLista() {
-        NoticiaService.requestNoticias(tipoNoticia, 1, 11);
-        adapter.refreshNoticias(tipoNoticia);
-        swipeRefreshLayout.setRefreshing(false);
+        NoticiaService.requestNoticias(tipoNoticia, 1, PAGE_SIZE + 1);
     }
 
     private void setupRecyclerView() {
@@ -77,9 +63,6 @@ public class NoticiasFragment extends BaseFragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-                Log.d("*", "onScrolled() called with: recyclerView = [" + recyclerView + "], dx = [" + dx + "], dy = [" + dy + "]");
-
                 super.onScrolled(recyclerView, dx, dy);
 
                 int totalItemCount = recyclerView.getLayoutManager().getItemCount();
@@ -100,7 +83,7 @@ public class NoticiasFragment extends BaseFragment {
                 int idNoticia = (int) adapter.getItemId(position);
 
                 Intent intent = new Intent(getContext(), NoticiaActivity.class);
-                intent.putExtra("idNoticia", idNoticia);
+                intent.putExtra(EXTRA_ID_NOTICIA, idNoticia);
                 startActivity(intent);
             }
         });
@@ -120,7 +103,7 @@ public class NoticiasFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString("tipoNoticia", tipoNoticia);
+        outState.putString(TIPO_NOTICIA, tipoNoticia);
     }
 
     @Override
@@ -129,7 +112,6 @@ public class NoticiasFragment extends BaseFragment {
 
         adapter.refreshNoticias(tipoNoticia);
         setupRecyclerView();
-        Log.d(TAG, "onStart() called");
     }
 
     @Override
@@ -143,35 +125,36 @@ public class NoticiasFragment extends BaseFragment {
                     }
                 }
         );
-        Log.d(TAG, "onResume() called");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause() called");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
     }
 
     @Subscribe
     public void onEvent(RequestNoticiasEventSucess event) {
         adapter.refreshNoticias(tipoNoticia);
+
+        if(swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Subscribe
     public void onEvent(RequestNoticiasEventFail event) {
-        adapter.refreshNoticias(tipoNoticia);
+        if(swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
+        alertaErroConexao();
     }
 
+    public void alertaErroConexao(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Erro de conexão.");
+        builder.setMessage("Por favor, verifique sua conexão com a internet.");
+        builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 }

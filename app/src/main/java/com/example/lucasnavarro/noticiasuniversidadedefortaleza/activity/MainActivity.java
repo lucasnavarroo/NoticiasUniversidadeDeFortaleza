@@ -15,9 +15,6 @@ import com.example.lucasnavarro.noticiasuniversidadedefortaleza.fragment.Noticia
 
 public class MainActivity extends BaseActivity {
 
-    private static final String TAG = "mact";
-    private PageAdapter mPageAdapter;
-
     private ViewPager mViewPager;
 
     @Override
@@ -31,19 +28,12 @@ public class MainActivity extends BaseActivity {
 
         mViewPager = findViewById(R.id.container);
 
-        Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart() called");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPageAdapter = new PageAdapter(getSupportFragmentManager());
+        PageAdapter mPageAdapter = new PageAdapter(getSupportFragmentManager());
 
         mViewPager.setAdapter(mPageAdapter);
 
@@ -53,25 +43,6 @@ public class MainActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         mViewPager.setOffscreenPageLimit(2);
-        Log.d(TAG, "onResume() called");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause() called");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
     }
 
 }
